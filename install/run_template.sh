@@ -1,21 +1,39 @@
 #!/bin/bash
 
-# Verifica se o arquivo YAML existe
-if [ -f "template_sh.yaml" ]; then
-    echo "Arquivo YAML encontrado."
-    
-    # Lê o arquivo YAML e executa os scripts marcados como verdadeiros
-    while IFS=':' read -r script rodar; do
-        #tirar os espaços que criou
-        script=$(echo "$script" | tr -d '[:space:]')
-        rodar=$(echo "$rodar" | tr -d '[:space:]')
-    
-        if [ "$rodar" = "true" ]; then
-            echo "Executando script $script.sh"
-            bash "$script.sh"
-        fi
-    done < template_sh.yaml
+echo -e "Iniciando script de instalação"
 
-else
-    echo "Arquivo YAML não encontrado."
-fi
+echo -e "\nAtualizando pacotes e repositorios do sistema..."
+sudo apt update -y &> /dev/null
+sudo apt upgrade -y &> /dev/null
+
+echo -e "\nInstalando utilitários e programas essenciais..."
+sudo apt install curl make git vim ca-certificates -y &> /dev/null
+
+echo -e "\nConfigurações do git:"
+read -p " * Digite seu user.name do git: " git_user_name
+read -p " * Digite seu user.email do git: " git_user_email
+git config --global user.name $git_user_name
+git config --global user.email $git_user_email
+git config --global core.editor vim
+
+script_atual=$(basename "$0")
+
+for arquivo in *.sh; do
+    if [ "$arquivo" == "$script_atual" ]; then
+        echo "Script $arquivo ignorado."
+    else
+        echo "Deseja executar o script $arquivo? [y/N]"
+        read resposta
+
+        if [[ $resposta =~ ^[Yy]$ ]]; then
+            echo "Executando $arquivo..."
+            bash "$arquivo"
+        else
+            echo "Script $arquivo ignorado."
+        fi
+    fi
+done
+
+echo
+echo -e "\nInstalação finalizada."
+echo "Você precisará fazer logout e login novamente para que todas as alterações tenham efeito."

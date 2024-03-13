@@ -1,8 +1,0 @@
-scripts:
-  chrome_install: true
-  displaylink_driver_install: true
-  docker_install: true
-  golang_install: true
-  kubernetes_install: true
-  maven_install: true
-  node_install: true
