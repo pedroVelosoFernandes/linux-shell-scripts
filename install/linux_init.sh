@@ -1,25 +1,19 @@
-#!bin/bash
+#!/bin/bash
 
-# variaveis para iterar no for para evitar repeticao de codigo
-# commando de instalar[nome do software] = "comando"
-installCommands[spotify]="spotify"
-installCommands[discord]="discord"
-installCommands[vlc]="vlc"
-installCommands[slack]="slack"
-installCommands[vscode]="code --classic"
-installCommands[mattermost]="mattermost-desktop"
-installCommands[obs]="obs-studio"
-installCommands[gimp]="gimp"
+# Inicializar array associativo installCommands
+declare -A installCommands=(
+    ["spotify"]="spotify"
+    ["discord"]="discord"
+    ["vlc"]="vlc"
+    ["slack"]="slack"
+    ["vscode"]="code --classic"
+    ["mattermost"]="mattermost-desktop"
+    ["obs"]="obs-studio"
+    ["gimp"]="gimp"
+)
 
-#---------------------------------------------------------------------
-# itera sobre todos os softwares
-for software in "${!installCommands[@]}"; do
-    ask_installation $software
-done
-
-#---------------------------------------------------------------------
+# Definir função ask_installation antes do loop for
 ask_installation(){
-
     local software=$1
     local command=${installCommands[$software]}
 
@@ -33,8 +27,8 @@ ask_installation(){
         echo "Instalação de $software ignorada."
     fi
 }
-#---------------------------------------------------------------------
 
+# Definir função de instalação
 execute_installation(){
     local command=$1
     echo "Comando para instalar: sudo snap install $command"
@@ -45,6 +39,11 @@ execute_installation(){
         echo "$command já está instalado."
     fi
 }
+
+# Iterar sobre todos os softwares
+for software in "${!installCommands[@]}"; do
+    ask_installation "$software"
+done
 
 echo -e "\nInstalação finalizada."
 echo "Você precisará fazer logout e login novamente para que todas as alterações tenham efeito."
