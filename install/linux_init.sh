@@ -1,6 +1,6 @@
 #!bin/bash
 
-#variaveis para iterar no for para evitar repeticao de codigo
+# variaveis para iterar no for para evitar repeticao de codigo
 # commando de instalar[nome do software] = "comando"
 installCommands[spotify]="spotify"
 installCommands[discord]="discord"
