@@ -2,7 +2,7 @@
 
 echo -e "Iniciando script de instalação"
 
-read -p "\nDeseja Atualizar pacotes e repositorios do sistema..." sys_forms
+read -p "Deseja Atualizar pacotes e repositorios do sistema? [y/N]" sys_forms
 if [[ $sys_forms =~ ^[Yy]$ ]]; then
     echo -e "\nAtualizando pacotes e repositorios do sistema..."
     sudo apt update -y &> /dev/null
