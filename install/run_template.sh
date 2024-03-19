@@ -2,9 +2,12 @@
 
 echo -e "Iniciando script de instalação"
 
-echo -e "\nAtualizando pacotes e repositorios do sistema..."
-sudo apt update -y &> /dev/null
-sudo apt upgrade -y &> /dev/null
+read -p "\nDeseja Atualizar pacotes e repositorios do sistema..." sys_forms
+if [[ $sys_forms =~ ^[Yy]$ ]]; then
+    echo -e "\nAtualizando pacotes e repositorios do sistema..."
+    sudo apt update -y &> /dev/null
+    sudo apt upgrade -y &> /dev/null
+fi
 
 echo -e "\nInstalando utilitários e programas essenciais..."
 sudo apt install curl make git vim ca-certificates -y &> /dev/null
